@@ -9,7 +9,9 @@ public class Spawner : MonoBehaviour
 
     public void Spawn(int index)
     {
-        Instantiate(_spawnPoints[index].EnemyPrefab, _spawnPoints[index].Position, Quaternion.identity).SetDestination(_spawnPoints[index].DestinationPoint);
+        SpawnPoint spawnPoint = _spawnPoints[index];
+
+        Instantiate(spawnPoint.EnemyPrefab, spawnPoint.Position, Quaternion.identity).SetDestination(spawnPoint.DestinationPoint);
     }
 
     private void Awake()
