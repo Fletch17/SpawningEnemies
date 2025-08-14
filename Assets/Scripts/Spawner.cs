@@ -7,6 +7,11 @@ public class Spawner : MonoBehaviour
 
     private SpawnPoint[] _spawnPoints;
 
+    public void Spawn(int index)
+    {
+        Instantiate(_spawnPoints[index].EnemyPrefab, _spawnPoints[index].Position, Quaternion.identity).SetDestination(_spawnPoints[index].DestinationPoint);
+    }
+
     private void Awake()
     {
         _spawnPoints = gameObject.GetComponentsInChildren<SpawnPoint>();
@@ -17,9 +22,9 @@ public class Spawner : MonoBehaviour
     {
         var spawnRate = new WaitForSeconds(_spawnRate);
 
-        while (true)
+        while (enabled)
         {
-            _spawnPoints[Random.Range(0, _spawnPoints.Length)].Spawn();
+            Spawn(UnityEngine.Random.Range(0, _spawnPoints.Length));
             yield return spawnRate;
         }
     }

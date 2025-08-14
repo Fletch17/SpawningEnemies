@@ -6,8 +6,7 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private Vector3 _deltaPosition;
 
-    public void Spawn()
-    {
-        Instantiate(_enemyPrefab, transform.position + _deltaPosition, Quaternion.identity).SetDestination(_destinationPoint.position);
-    }
+    public Enemy EnemyPrefab { get { return _enemyPrefab; } }
+    public Vector3 Position { get { return transform.position + _deltaPosition; } }
+    public Transform DestinationPoint { get { return _destinationPoint; } }
 }

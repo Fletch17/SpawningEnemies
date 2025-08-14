@@ -1,18 +1,35 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 1f;
+    [SerializeField] private float _rotationSpeed = 5f;
 
-    private Vector3 _position;
+    private Transform _targetTransform;
+    private Vector3 _targetPosition;
 
-    public void SetDestination(Vector3 position)
+    public void SetDestination(Transform targetTransform)
     {
-        _position = position;
+        _targetTransform = targetTransform;
     }
 
-    private void Update()
+    private void Start()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _position, _speed * Time.deltaTime);
+        StartCoroutine(MoveAndRotate());
+    }
+
+    private IEnumerator MoveAndRotate()
+    {
+        while (enabled)
+        {
+            _targetPosition = _targetTransform.position;
+            _targetPosition.y = transform.position.y;
+            Vector3 direction = (_targetPosition - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+            transform.SetPositionAndRotation(Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime), Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed));
+            yield return null;
+        }
     }
 }
